@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 class Subject;
 
@@ -125,13 +126,13 @@ void ConcreteObserver::update( Subject *subject )
 
 int main()
 {
-  ConcreteObserver observer1( 1 );
-  ConcreteObserver observer2( 2 );
+  ConcreteObserver observer1{1};
+  ConcreteObserver observer2{2};
   
   std::cout << "Observer 1 state: " << observer1.getState() << std::endl;
   std::cout << "Observer 2 state: " << observer2.getState() << std::endl;
   
-  Subject *subject = new ConcreteSubject();
+  std::unique_ptr<Subject> subject = std::make_unique<ConcreteSubject>();
   subject->attach( &observer1 );
   subject->attach( &observer2 );
   
@@ -141,6 +142,5 @@ int main()
   std::cout << "Observer 1 state: " << observer1.getState() << std::endl;
   std::cout << "Observer 2 state: " << observer2.getState() << std::endl;
   
-  delete subject;
   return 0;
 }
